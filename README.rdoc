@@ -1,0 +1,10 @@
+== Invoicer
+
+This is a simple app for creating printable invoices. Each invoice has jobs, and is assigned to a company.
+
+Getting Started
+
+* Create a database.yml file based on which adapter you want to use.
+* Make sure the required gem for the adapter is enabled in Gemfile.
+* Run 'bundle install'.
+* Run 'rake db:setup'.

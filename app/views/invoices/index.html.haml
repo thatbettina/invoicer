@@ -1,0 +1,47 @@
+- @page_title = "#{@action} Invoices"
+
+%h1 #{@action} Invoices: #{currency(@invoice_earnings)} (#{currency(@invoice_earnings_total)})
+
+- if flash[:error]
+  %p#error-notice= flash[:error]
+- if flash[:notice]
+  %p#error-notice= flash[:notice]
+
+%table.tools-table
+  %tr
+    %th= link_to "Date", "?sort=date&order=#{@order}"
+    %th= link_to "PO", "?sort=po&order=#{@order}"
+    %th= link_to "Number", "?sort=number&order=#{@order}"
+    %th= link_to "Memo", "?sort=memo&order=#{@order}"
+    %th= link_to "Company", "?sort=companies.name&order=#{@order}"
+    %th= link_to "Billed", "?sort=billed&order=#{@order}"
+    %th= link_to "Paid", "?sort=paid&order=#{@order}"
+    %th= link_to "Date Paid", "?sort=payday&order=#{@order}"
+    %th= link_to "Jobs", "?sort=jobs.id&order=#{@order}"
+    %th.options Options
+
+  - @invoices.each do |i|
+    %tr
+      %td= link_to i.date, edit_invoice_url(i)
+      %td= i.po
+      %td= i.number
+      %td= i.memo.html_safe
+      %td= link_to i.company.name, edit_company_url(i.company.id)
+      %td= currency(i.billed)
+      %td= currency(i.paid)
+      %td= i.payday
+      %td
+        - i.jobs.each do |j|
+          = link_to j.id, edit_job_url(j), title: j.description
+          %br
+      %td
+        = link_to image_tag("copy.png", title: "Copy"), invoice_url(i)
+        = link_to image_tag("trash.png", title: "Delete"), invoice_url(i), data: { data: { confirm: "WARNING: Permanently delete?" } }, method: "delete"
+        = link_to_external image_tag("print.png", title: "Print"), print_invoice_url(i)
+
+  %tr#totals
+    %th{colspan: 1}= @invoices.count
+    %th{colspan: 4}
+    %th{colspan: 1}= currency(@invoice_earnings_total)
+    %th{colspan: 1}= currency(@invoice_earnings)
+    %th{colspan: 3}

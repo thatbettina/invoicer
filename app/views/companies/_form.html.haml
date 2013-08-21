@@ -1,0 +1,58 @@
+= f.error_messages
+
+%h3= f.label :name
+%p= f.text_field :name, size: 50
+
+%h3= f.label :email
+%p= f.text_field :email, size: 50
+
+%h3= f.label :address
+%p= f.text_area :address, cols: 52, rows: 3
+
+%h3= f.label :phone
+%p= f.text_field :phone, size: 20
+
+%p
+  %input{type: "submit", value: "Save"}
+
+- if @company.invoices.any?
+  %h2 #{@company.name}: #{currency(@company.invoices_paid)} (#{currency(@company.invoices_total)})
+
+  %h3 Invoices
+  %table.tools-table
+    %tr
+      %th Date
+      %th PO
+      %th Number
+      %th Memo
+      %th Company
+      %th Billed
+      %th Paid
+      %th Date Paid
+      %th Jobs
+      %th.options Options
+
+    - @company.invoices.each do |i|
+      %tr
+        %td= link_to i.date, edit_invoice_url(i)
+        %td= i.po
+        %td= i.number
+        %td= i.memo
+        %td= i.company.name
+        %td= currency(i.billed)
+        %td= currency(i.paid)
+        %td= i.payday
+        %td
+          - i.jobs.each do |j|
+            = link_to j.id, edit_job_url(j), title: j.description
+            %br
+        %td
+          = link_to image_tag("copy.png", title: "Copy"), invoice_url(i)
+          = link_to image_tag("trash.png", title: "Delete"), invoice_url(i), data: { confirm: "WARNING: Permanently delete?" }, method: "delete"
+          = link_to_external image_tag("print.png", title: "Print"), print_invoice_url(i)
+    %tr
+      %th{colspan: 1}= @company.invoices.count
+      %th{colspan: 4} Total (#{@company.invoice_days} Days or #{@company.invoice_years} Years)
+      %th{colspan: 1}= currency(@company.invoices_total)
+      %th{colspan: 1}= currency(@company.invoices_paid)
+      %th{colspan: 3}

@@ -1,0 +1,11 @@
+- @page_title = "New Job"
+
+%h1 New Job
+
+- if flash[:error]
+  %p#error-notice= flash[:error]
+- if flash[:notice]
+  %p#error-notice= flash[:notice]
+
+= form_for @job, url: jobs_url do |j|
+  = render partial: "form", locals: {:j => j}

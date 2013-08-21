@@ -1,0 +1,28 @@
+!!!
+%html{lang: "en"}
+  %head
+    %meta{charset: "utf-8"}
+    %title= @page_title.html_safe
+    = stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true
+    = stylesheet_link_tag "print", media: "print"
+    = javascript_include_tag "application", "data-turbolinks-track" => true
+    /[if IE]
+      = javascript_include_tag "https://html5shiv.googlecode.com/svn/trunk/html5.js"
+    = csrf_meta_tags
+  %body
+    #main
+      %header
+        %p.alignleft.bold
+          = link_to "Invoices", invoices_url
+          |
+          = link_to "Jobs", jobs_url
+          |
+          = link_to "Companies", companies_url
+          | 
+          %span Create New:
+          %select.addnew
+            %option{value: ""}
+            %option{value: new_invoice_url} Invoice
+            %option{value: new_job_url} Job
+            %option{value: new_company_url} Company
+      .content= yield

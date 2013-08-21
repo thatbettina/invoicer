@@ -1,0 +1,11 @@
+- @page_title = "Clone Job “#{@job.id}”"
+
+%h1 Clone Job “#{@job.id}”
+
+- if flash[:error]
+  %p#error-notice= flash[:error]
+- if flash[:notice]
+  %p#error-notice= flash[:notice]
+
+= form_for @job, url: clone_job_url do |j|
+  = render partial: "form", locals: {:j => j}

@@ -1,0 +1,11 @@
+- @page_title = "New Company"
+
+%h1 New Company
+
+- if flash[:error]
+  %p#error-notice= flash[:error]
+- if flash[:notice]
+  %p#error-notice= flash[:notice]
+
+= form_for @company, url: companies_url do |f|
+  = render partial: "form", locals: {:f => f}

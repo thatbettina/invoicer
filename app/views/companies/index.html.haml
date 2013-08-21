@@ -1,0 +1,26 @@
+- @page_title = "Companies"
+
+%h1 #{params[:date]} Companies: #{currency(@invoice_earnings)} (#{currency(@invoice_earnings_total)})
+
+- if flash[:error]
+  %p#error-notice= flash[:error]
+- if flash[:notice]
+  %p#error-notice= flash[:notice]
+
+%table.tools-table
+  %tr
+    %th= link_to "Name", "?sort=name&order=#{@order}"
+    %th= link_to "Email", "?sort=email&order=#{@order}"
+    %th= link_to "Address", "?sort=address&order=#{@order}"
+    %th= link_to "Phone", "?sort=phone&order=#{@order}"
+    %th Invoices
+    %th.options Options
+
+  - @companies.each do |c|
+    %tr
+      %td= link_to c.name, edit_company_url(c)
+      %td= c.email
+      %td= c.address.gsub(/\n/, "<br />").html_safe if c.address
+      %td= c.phone
+      %td= currency(c.invoices_paid)
+      %td= link_to image_tag("trash.png", title: "Delete"), company_url(c), data: { confirm: "WARNING: Permanently delete?" }, method: "delete"

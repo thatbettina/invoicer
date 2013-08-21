@@ -1,0 +1,14 @@
+- @page_title = "Edit Invoice “#{@invoice.number}”"
+
+%h1
+  Edit Invoice “#{@invoice.number}”
+  = link_to image_tag("copy.png", title: "Copy"), invoice_url(@invoice.id)
+  = link_to_external image_tag("print.png", title: "Print"), print_invoice_url(@invoice.id)
+
+- if flash[:error]
+  %p#error-notice= flash[:error]
+- if flash[:notice]
+  %p#error-notice= flash[:notice]
+
+= form_for @invoice, url: invoice_url(@invoice) do |i|
+  = render partial: "form", locals: {:i => i}

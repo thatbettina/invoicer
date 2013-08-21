@@ -1,0 +1,11 @@
+- @page_title = "New Invoice"
+
+%h1 New Invoice
+
+- if flash[:error]
+  %p#error-notice= flash[:error]
+- if flash[:notice]
+  %p#error-notice= flash[:notice]
+
+= form_for @invoice, url: invoices_url do |i|
+  = render partial: "form", locals: {:i => i}

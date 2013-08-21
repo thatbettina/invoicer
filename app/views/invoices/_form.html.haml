@@ -1,0 +1,65 @@
+= i.error_messages
+
+.column.alignleft
+  %h3= i.label :date
+  %p
+    = i.date_select :date, start_year: Time.now.year - 10, end_year: Time.now.year + 10
+    %input{type: "button", value: "Today", class: 'invoice_date change_date', data: {year: Time.zone.now.strftime('%Y'), month: Time.zone.now.strftime('%-m'), day: Time.zone.now.strftime('%-d')}}
+
+  %h3= i.label :company_id
+  %p= i.select :company_id, Company.select("name, id").order("name ASC").collect {|t| [t.name, t.id]}, include_blank: true
+
+  %h3= i.label :memo
+  %p= i.text_field :memo, size: 40
+
+  %h3= i.label :payday
+  %p
+    = i.date_select :payday, start_year: Time.now.year - 10, end_year: Time.now.year + 10, include_blank: true
+    %input{type: "button", value: "Today", class: 'invoice_payday change_date', data: {year: Time.zone.now.strftime('%Y'), month: Time.zone.now.strftime('%-m'), day: Time.zone.now.strftime('%-d')}}
+    %input{type: "button", value: "Clear", class: 'invoice_payday change_date'}
+
+.column.alignleft
+  %h3= i.label :po, "PO"
+  %p= i.text_field :po, size: 20
+
+  %h3= i.label :number
+  %p= i.text_field :number, size: 20
+
+  .clear
+    .alignleft
+      %h3= i.label :total
+      %p= i.text_field :total, size: 20
+
+    .alignleft.extra-padding-left
+      %h3= i.label :discount
+      %p= i.text_field :discount, size: 20
+
+  .clear
+    .alignleft
+      %h3= i.label :billed
+      %p= i.text_field :billed, size: 20
+
+    .alignleft.extra-padding-left
+      %h3= i.label :paid
+      %p= i.text_field :paid, size: 20
+
+.clear
+  %h3 Jobs
+  - if controller.action_name == "edit" || controller.action_name == "update"
+    %table.tools-table
+      - @invoice.jobs.each do |t|
+        %tr
+          %td= t.start_date
+          %td= t.end_date
+          %td= link_to t.description, edit_job_url(t)
+          %td= currency(t.rate)
+          %td= t.hours
+          %td= currency(t.amount)
+          %td= link_to image_tag("trash.png", title: "Delete"), job_url(t), data: { confirm: "WARNING: Permanently delete?" }, method: "delete"
+    %p= link_to "Add new job", new_invoice_job_url(@invoice.id)
+  - else
+    %p Save invoice first.
+
+%p.clear
+  %input{type: "submit", value: "Save"}
+  

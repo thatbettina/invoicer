@@ -1,0 +1,13 @@
+- @page_title = "Edit Job “#{@job.description}”"
+
+%h1
+  Edit Job
+  = link_to image_tag("copy.png", title: "Copy"), job_url(@job.id)
+
+- if flash[:error]
+  %p#error-notice= flash[:error]
+- if flash[:notice]
+  %p#error-notice= flash[:notice]
+
+= form_for @job, url: job_url(@job) do |j|
+  = render partial: "form", locals: {:j => j}

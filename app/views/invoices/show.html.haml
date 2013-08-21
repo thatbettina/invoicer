@@ -1,0 +1,11 @@
+- @page_title = "Clone Invoice “#{@invoice.number}”"
+
+%h1 Clone Invoice “#{@invoice.number}”
+
+- if flash[:error]
+  %p#error-notice= flash[:error]
+- if flash[:notice]
+  %p#error-notice= flash[:notice]
+
+= form_for @invoice, url: clone_invoice_url do |i|
+  = render partial: "form", locals: {:i => i}

@@ -1,0 +1,105 @@
+=clear-overflow
+  clear: both
+  overflow: hidden
+  
+
+html, body, div, ul, ol, li, h1, h2, h3, h4, h5, h6, p, table, tr, td, th
+  margin: 0
+  padding: 0
+
+body
+  position: relative
+  background: #fff
+  color: #000
+  width: 738px
+  font: 13px/16px "Arial",sans-serif
+
+.invoice-header
+  position: relative
+  height: 246px
+
+h1
+  position: absolute
+  top: 64px
+  left: 35px
+  font-size: 38px
+
+.invoice-info
+  position: absolute
+  top: 51px
+  right: 31px
+  width: 483px
+  padding: 8px 5px 0
+  border: 1px solid #000
+  overflow: hidden
+
+span
+  float: left
+  display: block
+
+.bold
+  font-weight: bold
+
+.column-left
+  float: left
+  width: 225px
+  p
+    padding: 0 0 12px
+    +clear-overflow
+    span
+      width: 159px
+      &.bold
+        width: 61px
+
+.column-right
+  float: right
+  width: 256px
+  p
+    padding: 0 0 12px
+    +clear-overflow
+    span
+      width: 179px
+      &.bold
+        width: 77px
+
+.invoice-body
+  width: 675px
+  margin: 0 auto
+  table
+    width: 100%
+    margin: 0 0 43px
+    border-collapse: collapse
+    th
+      height: 19px
+      padding: 0 5px
+      border-bottom: 1px solid #000
+      line-height: 19px
+      text-align: right
+      &.left
+        text-align: left
+    td
+      height: 29px
+      padding: 0 5px
+      line-height: 29px
+      text-align: right
+      &.left
+        text-align: left
+
+.total
+  float: right
+  width: 152px
+  padding: 10px 5px 0
+  border: 1px solid #000
+  p
+    padding: 0 0 9px
+    +clear-overflow
+    span
+      width: 76px
+      text-align: right
+
+.payment
+  clear: both
+  width: 675px
+  margin: 0 auto
+  p
+    padding: 0 0 12px

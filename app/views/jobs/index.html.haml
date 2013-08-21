@@ -1,0 +1,42 @@
+- @page_title = "Jobs"
+
+%h1 Jobs: #{currency(@job_amounts)} (#{@jobs.count})
+
+- if flash[:error]
+  %p#error-notice= flash[:error]
+- if flash[:notice]
+  %p#error-notice= flash[:notice]
+
+%table.tools-table
+  %tr
+    %th= link_to "Start Date", "?sort=start_date&order=#{@order}"
+    %th= link_to "End date", "?sort=end_date&order=#{@order}"
+    %th= link_to "Description", "?sort=description&order=#{@order}"
+    %th= link_to "Rate", "?sort=rate&order=#{@order}"
+    %th= link_to "Hours", "?sort=hours&order=#{@order}"
+    %th= link_to "Amount", "?sort=amount&order=#{@order}"
+    %th= link_to "Invoice Date", "?sort=invoices.date&order=#{@order}"
+    %th= link_to "Number", "?sort=invoices.number&order=#{@order}"
+    %th.options Options
+
+  - @jobs.each do |j|
+    %tr
+      %td= j.start_date
+      %td= j.end_date
+      %td= link_to j.description, edit_job_url(j)
+      %td= currency(j.rate)
+      %td= j.hours
+      %td= currency(j.amount)
+      %td= link_to j.invoice.date, edit_invoice_url(j.invoice_id)
+      %td= j.invoice.number
+      %td
+        = link_to image_tag("copy.png", title: "Copy"), job_url(j)
+        = link_to image_tag("trash.png", title: "Delete"), job_url(j), data: { confirm: "WARNING: Permanently delete?" }, method: "delete"
+
+  %tr#totals
+    %th{colspan: 2}
+    %th{colspan: 1}= @jobs.count
+    %th{colspan: 1}= currency(@job_amounts / @job_hours)
+    %th{colspan: 1}= @job_hours
+    %th{colspan: 1}= currency(@job_amounts)
+    %th{colspan: 3}

@@ -1,0 +1,67 @@
+!!!
+%html{lang: "en"}
+  %head
+    %meta{charset: "utf-8"}
+    %title Invoice_#{@invoice.number}
+    = stylesheet_link_tag "print", media: "all"
+  %body
+    .invoice-header
+      %h1 Invoice
+      .invoice-info
+        .column-left
+          - if @invoice.po.present?
+            %p
+              %span.bold PO:
+              %span= @invoice.po
+          %p
+            %span.bold Number:
+            %span= @invoice.number
+          %p
+            %span.bold Date:
+            %span= slash_date(@invoice.date)
+          - if @invoice.memo.present?
+            %p
+              %span.bold Memo:
+              %span= @invoice.memo.html_safe
+        .column-right
+          %p
+            %span.bold Invoice To:
+            %span= @invoice.company.name
+          - if @invoice.company.address.present?
+            %p
+              %span.bold Address:
+              %span= @invoice.company.address.gsub(/\n/, "<br />").html_safe
+          - if @invoice.company.phone.present?
+            %p
+              %span.bold Phone:
+              %span= @invoice.company.phone
+    .invoice-body
+      %table
+        %tr
+          %th.left Description
+          %th Rate
+          %th Hours
+          %th Amount
+        - @invoice.jobs.each do |j|
+          %tr
+            %td.left= j.full_description
+            %td= decimals(j.rate)
+            %td= j.hours
+            %td= decimals(j.amount)
+      .total
+        - if @invoice.discount.present? && @invoice.discount > 0
+          %p
+            %span Total:
+            %span= currency(@invoice.total)
+          %p
+            %span Discount:
+            %span= negative_currency(@invoice.discount)
+        %p
+          %span.bold Due:
+          %span.bold= currency(@invoice.billed)
+        %p
+          %span Due By:
+          %span= slash_date(@invoice.due_date)
+
+    .payment
+      

@@ -1,0 +1,40 @@
+= j.error_messages
+
+%h3= j.label :invoice_id
+%p= j.select :invoice_id, Invoice.select("date, number, id").order("date ASC, number ASC").collect {|i| ["#{i.date} : #{i.number}", i.id]}, include_blank: true
+
+%h3= j.label :description
+%p= j.text_field :description, size: 100
+
+.clear
+  .alignleft
+    %h3= j.label :rate
+    %p= j.text_field :rate, size: 20
+
+  .alignleft.extra-padding-left
+    %h3= j.label :hours
+    %p= j.text_field :hours, size: 20
+
+  .alignleft.extra-padding-left
+    %h3= j.label :amount
+    %p= j.text_field :amount, size: 20
+
+.clear
+  %h3= j.label :start_date
+  %p
+    = j.date_select :start_date, start_year: Time.now.year - 10, end_year: Time.now.year + 10, include_blank: true
+    %input{type: "button", value: "Today", class: 'job_start_date change_date', data: {year: Time.zone.now.strftime('%Y'), month: Time.zone.now.strftime('%-m'), day: Time.zone.now.strftime('%-d')}}
+    %input{type: "button", value: "Clear", class: 'job_start_date change_date'}
+
+  %h3= j.label :end_date
+  %p
+    = j.date_select :end_date, start_year: Time.now.year - 10, end_year: Time.now.year + 10, include_blank: true
+    %input{type: "button", value: "Today", class: 'job_end_date change_date', data: {year: Time.zone.now.strftime('%Y'), month: Time.zone.now.strftime('%-m'), day: Time.zone.now.strftime('%-d')}}
+    %input{type: "button", value: "Clear", class: 'job_end_date change_date'}
+
+%p.clear
+  %input{type: "submit", value: "Save"}
+
+- if @invoice_id.present?
+  %p
+    = link_to "Back to Invoice", edit_invoice_url(@invoice_id)
