@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 3) do
+ActiveRecord::Schema.define(version: 4) do
 
   create_table "companies", force: true do |t|
     t.string   "name"
@@ -24,9 +24,9 @@ ActiveRecord::Schema.define(version: 3) do
 
   create_table "invoices", force: true do |t|
     t.date     "date"
-    t.string   "po",         default: "", null: false
+    t.string   "po",                   default: "", null: false
     t.string   "number"
-    t.string   "memo",       default: "", null: false
+    t.string   "memo",                 default: "", null: false
     t.integer  "company_id"
     t.float    "total"
     t.float    "discount"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 3) do
     t.date     "payday"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "payment_instructions"
   end
 
   create_table "jobs", force: true do |t|

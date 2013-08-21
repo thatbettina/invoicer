@@ -15,7 +15,7 @@
 %p
   %input{type: "submit", value: "Save"}
 
-- if @company.invoices.any?
+- if @company.invoices.present?
   %h2 #{@company.name}: #{currency(@company.invoices_paid)} (#{currency(@company.invoices_total)})
 
   %h3 Invoices

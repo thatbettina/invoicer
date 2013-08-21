@@ -64,4 +64,4 @@
           %span= slash_date(@invoice.due_date)
 
     .payment
-      
+      = @invoice.payment_instructions.gsub(/\n/, "<br />").html_safe if @invoice.payment_instructions.present?

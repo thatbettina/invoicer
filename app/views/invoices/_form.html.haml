@@ -18,6 +18,9 @@
     %input{type: "button", value: "Today", class: 'invoice_payday change_date', data: {year: Time.zone.now.strftime('%Y'), month: Time.zone.now.strftime('%-m'), day: Time.zone.now.strftime('%-d')}}
     %input{type: "button", value: "Clear", class: 'invoice_payday change_date'}
 
+  %h3= i.label :payment_instructions
+  %p= i.text_area :payment_instructions, cols: 52, rows: 3
+
 .column.alignleft
   %h3= i.label :po, "PO"
   %p= i.text_field :po, size: 20

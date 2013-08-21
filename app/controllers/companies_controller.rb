@@ -43,7 +43,7 @@ class CompaniesController < ApplicationController
   end
 
   def destroy
-    if @company.invoices.present? || @company.incomes.present?
+    if @company.invoices.present?
       flash[:notice] = "“#{@company.name}” can't be deleted."
     else
       @company.destroy
